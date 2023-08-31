@@ -1,0 +1,51 @@
+#include <iostream>
+#include <assert.h>
+#include <unistd.h>
+using namespace std;
+
+void printCriticalMessage(string message) {
+    cout << message << endl;
+    for (int i = 0; i < 6; i++)
+    {
+        cout << "\r* " << flush;
+        sleep(1);
+        cout << "\r *" << flush;
+        sleep(1);
+    }
+}
+
+bool checkRange(float value, float lowerLimit, float upperLimit, string message) {
+    if (value < lowerLimit || value > upperLimit) {
+        printCriticalMessage(message);
+        return false;
+    }
+    return true;
+}
+
+bool checkTemperature(float temperature) {
+    return checkRange(temperature, 95, 102, "Temperature critical!");
+}
+
+bool checkPulseRate(float pulseRate) {
+    return checkRange(pulseRate, 60, 100, "Pulse Rate is out of range!");
+}
+
+bool checkSpo2(float spo2) {
+    return checkRange(spo2, 90, 100, "Oxygen Saturation out of range!");
+}
+
+int vitalsOk(float temperature, float pulseRate, float spo2) {
+    return checkTemperature(temperature) && checkPulseRate(pulseRate) && checkSpo2(spo2);
+}
+
+int main() {
+
+    assert(!vitalsOk(99, 102, 70));
+    assert(vitalsOk(98.1, 70, 98));//normal temperature,normal pulse,normal spo2
+    assert(!vitalsOk(103, 72, 95)); // high temperature
+    assert(!vitalsOk(94, 72, 95)); // low temperature
+    assert(!vitalsOk(98.6, 59, 95)); // low pulse rate
+    assert(!vitalsOk(98.6, 101, 95)); // high pulse rate
+    assert(!vitalsOk(98.6, 72, 89)); // low spo2
+    cout << "Done\n";
+}
