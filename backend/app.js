@@ -1,12 +1,13 @@
 const dotenv=require('dotenv');
 const express=require('express');
+const cookieParser=require('cookie-parser');
 const app=express();
 
 
 //app midleware
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true })); //we can use body-parser;
-
+app.use(cookieParser());//this is enables cookie data to be read
 if(process.env.NODE_ENV!=='DEVELOPMENT'){
     dotenv.config({path:'backend/config/config.env'});
 }
