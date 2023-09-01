@@ -3,11 +3,11 @@ const jwt=require('jsonwebtoken');
 exports.Authenticator=async(req,res,next)=>{
     try {
         const {token}=req.cookies;
-        console.log(token);
-        if(!token)
+        // console.log("this is my token ",token);
+        if(!token || token==="null")
         {
-            return res.status(400).send({
-                success:false,
+            return res.status(401).send({
+                success:true,
                 message:"User is invalid ,Please Login again"
             })
         }

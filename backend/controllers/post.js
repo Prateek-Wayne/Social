@@ -3,10 +3,10 @@ const Post=require('../model/POSTMODEL');
 
 exports.createPost=async (req,res)=>{
     try{
-
+        const {caption}=req.body;
         //**NOTE: req.user._id is coming from the Authenticator middleware./....
         const newPostData={
-            caption:"this is my caption",
+            caption:caption,
             image:{
                 public_id:"this is a public id",
                 url:'temp/temp/img.jpeg'
@@ -15,7 +15,7 @@ exports.createPost=async (req,res)=>{
 
         }
         const newPost=await Post.create(newPostData);
-        console.log(req.user._id);
+        // console.log(req.user._id);
         const user = await User.findById(req.user._id);
         user.posts.push(newPost._id);
         await user.save();
@@ -105,3 +105,53 @@ exports.deletePost = async (req, res) => {
     }
   };
   
+exports.getPostOfFollowing=async (req,res)=>{
+    try {
+        //by doing populate we can get reference that is given insidethe following array in USer models
+        // const user=await User.findById(req.user._id).populate('following','posts');
+        const user=await User.findById(req.user._id);
+        const posts=await Post.find({
+            owner:{
+                $in: user.following,
+            },
+        });
+        
+        return res.status(200).json({
+            success:true,
+            posts,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success:false,
+            message:error.message,
+            location:"Inside getPostOFFOllowing catch block",
+        });
+    }
+};
+
+exports.updateCaption=async (req,res)=>{
+    try {
+        const post=await Post.findById(req.params.id);
+        const {caption}=req.body;
+        if(!caption)
+        {
+            return res.status(400).json({
+                success:false,
+                message: "Please Enter capiton"
+            });
+        }
+        post.caption=caption;
+        await post.save();  
+        return res.status(200).json({
+            success:false,
+            message:"Caption is updated successFully",
+        })
+        
+    } catch (error) {
+        return res.status(500).json({
+            success:false,
+            message:error.message,
+            location:"Inside updateCaption catch block "
+        })
+    }
+}
