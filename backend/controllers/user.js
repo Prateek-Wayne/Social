@@ -1,4 +1,5 @@
 const User=require('../model/USERMODEL');
+const Post=require('../model/POSTMODEL');
 
 exports.register=async(req,res)=>{
     try {
@@ -210,10 +211,113 @@ exports.updateUserProfile=async (req,res)=>{
       })
 
     } catch (error) {
-      res.status(500).send({
+      return res.status(500).send({
         success:false,
         message:error.message,
         message:"Inside updateUserPorfile catch block"
       })
     }
   }
+exports.DeleteUser=async (req,res)=>{
+  try {
+    const user=await User.findById(req.user._id);
+    const postArray=user.posts;
+    const followersArray=user.followers;
+    const followingArray =user.following;
+    const userId=user._id;
+
+    res.cookie("token", null, {
+      expires: new Date(Date.now()),
+      httpOnly: true,
+    });
+    
+    //Delting User Posts;
+    for(let i of postArray)
+    {
+      const post=await Posts.findById(i);
+      await post.remove();
+    }
+    // Delteting FOllowers
+    for(let i of followersArray)
+    {
+      const follower=await User.findById(i);
+      const index = follower.following.indexOf(userId);
+      follower.following.splice(index, 1);
+      await follower.save();
+    }
+    //Deleting Followings
+    for(let i of followingArray)
+    {
+      const follows = await User.findById(following[i]);
+
+      const index = follows.followers.indexOf(userId);
+      follows.followers.splice(index, 1);
+      await follows.save();
+    }
+    await user.deleteOne();
+    
+    return res.status(200).json({
+      success:true,
+      message:"User has been deleted"
+    });
+  } catch (error) {
+   return res.status(500).json(
+      {
+        success:false,
+        message:error.message,
+        location:"Inside DeleteProfile catch block"
+      }
+    );
+  }
+};
+
+exports.myProfle=async(req,res) =>{
+  try {
+    const user=await User.findById(req.user._id).populate("posts followers following");
+    return res.status(200).json({
+      success:true,
+      user 
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success:false,
+      message:error.message,
+      location:"Inside myProfile catch block"
+    })
+  }
+};
+
+exports.getUserProfile=async (req,res) =>{
+  try {
+    const user=await User.findById(req.params.id).populate("posts");
+    return res.status(200).json({
+     success:true,
+     user
+    })
+    
+  } catch (error) {
+    return res.status(500).json({
+      success:false,
+      message:error.message,
+      location:"Inside getUserProfile ccatch Block"
+    })
+  }
+};
+exports.getAllUsers =async(req,res)=>{
+  try {
+    const user = await User.find({
+    });
+
+    return res.status(200).json({
+      success:true,
+      user,
+    })
+  } catch (error) {
+    return res.status(500).json({
+      success:false,
+      message:error.message,
+      location:"Inside the getAlluser catch block"
+    })
+  }
+}
