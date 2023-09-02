@@ -2,6 +2,7 @@ const { urlencoded } = require('express');
 const bcryptjs=require('bcryptjs');
 const mongoose = require('mongoose');
 const dotenv=require('dotenv');
+const crypto=require('crypto');
 dotenv.config({path:'backend/config/config.env'});
 const jwt=require('jsonwebtoken');
 
@@ -47,7 +48,6 @@ const userSchema = new mongoose.Schema({
         ref: "User",
       },
     ],
-  
     resetPasswordToken: String,
     resetPasswordExpire: Date,
   });
@@ -62,6 +62,15 @@ userSchema.methods.generateTOken=async function()
     return jwt.sign({_id:this._id},process.env.JWT_SECRET_KEY);
 }
 
+userSchema.methods.getResetPasswordToken=async function()
+{
+  const resetToken=await crypto.randomBytes(20).toString("hex");
+  // console.log(resetToken);
+  this.resetPasswordToken=crypto.createHash("sha256").update(resetToken).digest("hex");
+  this.resetPasswordExpire=Date.now()+10*60*1000;
+  return resetToken;
+
+};
 
 userSchema.pre("save",async function(next){
     if(this.isModified("password"))
