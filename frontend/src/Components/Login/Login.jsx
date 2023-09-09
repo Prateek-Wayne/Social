@@ -18,11 +18,9 @@ const Login = () => {
       initialValues: initialValues,
       validationSchema: loginSchema,
       onSubmit: (values) => {
-        // console.log("Inside Values", values);
         dispatch(loginUser(values.email, values.password));
       },
     });
-  // console.log("Inside Errors", errors);
   return (
     <Box sx={{
       display: 'flex', flexDirection: 'column', justifyContent: 'center',position:'relative',

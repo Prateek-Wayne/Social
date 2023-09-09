@@ -60,7 +60,7 @@ userSchema.methods.matchPassword =async function(password){
 userSchema.methods.generateTOken=async function()
 {   
     return jwt.sign({_id:this._id},process.env.JWT_SECRET_KEY, {
-      expiresIn: '3m'
+      expiresIn: '60m'
   });
 }
 
