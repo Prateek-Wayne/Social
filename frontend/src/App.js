@@ -11,10 +11,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 const darkTheme = createTheme({
   palette: {
     primary: {
-      main: '#B7B4B7',
+      main: '#585758',
     },
     secondary: {
-      main: '#087A8F',
+      main: '#ebfffe',
+      dark:'#053847'
     },
   },
 });
@@ -28,16 +29,17 @@ function App() {
   const {isAuthenticated} =useSelector(state=>state.user);
 
   return (
-    <BrowserRouter>
     <ThemeProvider theme={darkTheme}>
+    <BrowserRouter>
     <div className="App">
     </div>
       {isAuthenticated && <Header />}
     <Routes>
       <Route path="/" element={isAuthenticated?<Home/>:<Login/>} />
     </Routes>
-    </ThemeProvider>
     </BrowserRouter>
+  
+    </ThemeProvider>
   );
 }
 

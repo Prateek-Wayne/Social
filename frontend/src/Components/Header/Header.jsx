@@ -23,25 +23,25 @@ const Header = () => {
                 {/* //Home Icon */}
                 <IconButton  edge="start" color="inherit" aria-label="menu" sx={{ margin: 1 }}>
                     <Link to="/" onClick={() => { setTab("/") }}>
-                        {tab === '/' ? <Home fontSize='large' style={{ color: 'black' ,fontSize:40 }} /> : <HomeOutlined fontSize='large' style={{ color: 'grey',fontSize:40  }} />}
+                        {tab === '/' ? <Home fontSize='large' style={{ color: '#087a8f' ,fontSize:40 }} /> : <HomeOutlined fontSize='large' style={{ color: '#ebfffe',fontSize:40  }} />}
                     </Link>
                 </IconButton>
                 {/* Add Icon */}
                 <IconButton edge="start" color="inherit" aria-label="menu" sx={{ margin: 1 }}>
                     <Link to="/newpost" onClick={() => { setTab("/newpost") }}>
-                        {tab === '/newpost' ? <AddBoxRoundedIcon fontSize='large' style={{ color: 'black' }} /> : <AddBoxOutlinedIcon fontSize='large' style={{ color: 'grey' }} />}
+                        {tab === '/newpost' ? <AddBoxRoundedIcon fontSize='large' style={{ color: '#087a8f' }} /> : <AddBoxOutlinedIcon fontSize='large' style={{ color: '#ebfffe' }} />}
                     </Link>
                 </IconButton>
                 {/* //Search Icon */}
                 <IconButton edge="start" color="inherit" aria-label="menu" sx={{ margin: 1 }}>
                     <Link to="/search" onClick={() => { setTab("/search") }}>
-                        {tab === '/search' ? <Search fontSize='large' style={{ color: 'black' }} /> : <SearchOutlined  style={{ color: 'grey' }}fontSize='large'/>}
+                        {tab === '/search' ? <Search fontSize='large' style={{ color: '#087a8f' }} /> : <SearchOutlined  style={{ color: '#ebfffe' }}fontSize='large'/>}
                     </Link>
                 </IconButton>
                 {/* // Account Icon */}
                 <IconButton edge="start" color="inherit" aria-label="menu" sx={{ margin: 1 }}>
                     <Link to="/account" onClick={() => { setTab("/account") }}>
-                        {tab === '/account' ? <AccountCircle fontSize='large' style={{ color: 'black' }} /> : <AccountCircleOutlined fontSize='large' style={{ color: 'grey' }} />}
+                        {tab === '/account' ? <AccountCircle fontSize='large' style={{ color: '#087a8f' }} /> : <AccountCircleOutlined fontSize='large' style={{ color: '#ebfffe' }} />}
                     </Link>
                 </IconButton>
             </Toolbar>
