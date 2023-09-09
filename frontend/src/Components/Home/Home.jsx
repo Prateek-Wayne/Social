@@ -6,14 +6,28 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getAllUsers, getFollowingPost } from '../../Actions/User';
 import Loader from '../Loader/Loader';
 import { Typography } from '@mui/material';
+import { toast } from 'react-hot-toast';
+
 const Home = () => {
   const dispatch = useDispatch();
   const { loading, posts, error } = useSelector(state => state.postOfFollowing);
   const { allUsers, loading: loadingUser } = useSelector(state => state.allUsers);
+  const {error:likeError,post}=useSelector(state=>state.like);
   useEffect(() => {
     dispatch(getFollowingPost());
     dispatch(getAllUsers());
   }, [dispatch]);
+
+  useEffect(()=>{
+    if(likeError){
+        toast.error(likeError);
+    }
+    if(post){
+        toast.success(post);
+        dispatch({type:'clearMessage'})
+    }
+},[likeError,post]);
+
   return loading || loadingUser ? (<Loader />) :
     (<div className='home'>
       <div className='homeleft'>
