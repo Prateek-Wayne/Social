@@ -7,13 +7,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { likePost } from '../../Actions/Post';
 import { getFollowingPost } from '../../Actions/User';
 import User from '../User/User';
-
+import { addCommentOnPost } from '../../Actions/Post';
+import CommentCard from '../CommentCard/CommentCard';
 const Post = ({
     postId,
     caption,
     postImage,
-    likes = [],
-    comments = [],
+    likes=[],
+    comments=[],
     ownerImage,
     ownerName,
     ownerId,
@@ -35,8 +36,16 @@ const Post = ({
             dispatch(getFollowingPost());
         }
     }
-    const addCommentHandler=()=>{
-        console.log("Add comment");
+    const addCommentHandler = async (e) => {
+        e.preventDefault();
+        await dispatch(addCommentOnPost(postId, commentValue));
+        if (isAccount) {
+
+        }
+        else {
+            dispatch(getFollowingPost());
+        }
+        setCommentValue('');
     }
     useEffect(() => {
         likes.forEach((item) => {
@@ -75,7 +84,7 @@ const Post = ({
                 <Button onClick={handleLike}>
                     {liked ? <Favorite sx={{ color: 'red' }} /> : <FavoriteBorder sx={{ color: 'red' }} />}
                 </Button>
-                <Button onClick={()=>{setCommentToggle(!commentToggle)}}>
+                <Button onClick={() => { setCommentToggle(!commentToggle) }}>
                     <ChatBubbleOutline />
                 </Button>
                 {
@@ -85,35 +94,42 @@ const Post = ({
                 }
             </div>
             {
-                likes&& likes.length > 0 ? <Dialog open={likesUser}
-                onClose={() => setLikesUser(!likesUser)}>
-                <div className='DialogBox'>
-                    <Typography variant='h6'>Liked By</Typography>
-                    {
-                        likes.map((user) => {
-                            return (
-                                <User
-                                    key={user._id}
-                                    userId={user._id}
-                                    name={user.name}
-                                    avatar={"https://mui.com/static/images/cards/paella.jpg"} />
-                            )
-                        })
-                    }
-                </div>
-            </Dialog>:null
+                likes && likes.length > 0 ? <Dialog open={likesUser}
+                    onClose={() => setLikesUser(!likesUser)}>
+                    <div className='DialogBox'>
+                        <Typography variant='h6'>Liked By</Typography>
+                        {
+                            likes.map((user) => {
+                                return (
+                                    <User
+                                        key={user._id}
+                                        userId={user._id}
+                                        name={user.name}
+                                        avatar={"https://mui.com/static/images/cards/paella.jpg"} />
+                                )
+                            })
+                        }
+                    </div>
+                </Dialog> : null
             }
-             <Dialog open={commentToggle}
+            <Dialog  open={commentToggle}
                 onClose={() => setCommentToggle(!commentToggle)}>
                 <div className='DialogBox'>
                     <Typography variant='h6'>Comments</Typography>
                     <form className='commentForm' onSubmit={addCommentHandler}>
-                    <input type='text' placeholder='Comment Here' value={commentValue} required onChange={(e) => { setCommentValue(e.target.value) }} />
-                    <Button type='submit'>Add</Button>
+                        <input type='text' placeholder='Comment Here' value={commentValue} required onChange={(e) => { setCommentValue(e.target.value) }} />
+                        <Button type='submit'>Add</Button>
                     </form>
+                        {
+                            comments && comments.length > 0 ? comments.map((item) => {
+                                return(
+                                    <CommentCard key={item._id} userId={item.user._id} name={item.user.name} avatar={item.user.avatar.url} comment={item.comment} commentId={item._id} postId={postId} isAccount={isAccount}/>
+                                );
+                        }):<Typography variant='h6'>No Comments</Typography>
+                    }
                 </div>
             </Dialog>
-           
+
         </div>
     )
 };

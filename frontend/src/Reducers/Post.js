@@ -13,6 +13,28 @@ const initialState={}
         state.loading=false;
         state.error=action.payload;
     },
+    addCommentRequest:(state)=>{
+        state.loading=true;
+    },
+    addCommentSuccess:(state,action)=>{
+        state.loading=false;
+        state.post=action.payload;
+    },
+    addCommentFailure:(state,action)=>{
+        state.loading=false;
+        state.error=action.payload;
+    },
+    deleteCommentRequest:(state)=>{
+        state.loading=true;
+    },
+    deleteCommentSuccess:(state,action)=>{
+        state.loading=false;
+        state.post=action.payload;
+    },
+    deleteCommentFailure:(state,action)=>{
+        state.loading=false;
+        state.error=action.payload;
+    },
     clearError:(state)=>{
         state.error=null;
     },

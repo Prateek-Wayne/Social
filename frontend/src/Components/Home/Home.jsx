@@ -21,6 +21,7 @@ const Home = () => {
   useEffect(()=>{
     if(likeError){
         toast.error(likeError);
+        dispatch({type:'clearError'})
     }
     if(post){
         toast.success(post);
@@ -39,7 +40,7 @@ const Home = () => {
                 caption={post.caption}
                 postImage={post.photo}
                 likes={post.likes}
-                comments={post.comments}
+                comments={post.Comments}
                 ownerImage={post.owner.avatar.url}
                 ownerName={post.owner.name}
                 ownerId={post.owner._id}

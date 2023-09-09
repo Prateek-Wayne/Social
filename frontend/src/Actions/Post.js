@@ -1,21 +1,69 @@
 import axios from "axios";
 
 
-export const likePost=(id)=>async(dispatch)=>{
-    try{
+export const likePost = (id) => async (dispatch) => {
+    try {
         dispatch({
-            type:'likeRequest'
+            type: 'likeRequest'
         });
-        const {data}=await axios.get(`api/v1/post/${id}`);
+        const { data } = await axios.get(`api/v1/post/${id}`);
         dispatch({
-            type:'likeSuccess',
-            payload:data.message
+            type: 'likeSuccess',
+            payload: data.message
         });
     }
-    catch(error){
+    catch (error) {
         dispatch({
-            type:'likeFailure',
-            payload:error.response.data.message
+            type: 'likeFailure',
+            payload: error.response.data.message
+        });
+    };
+};
+export const addCommentOnPost = (id, comment) => async (dispatch) => {
+    try {
+        dispatch({
+            type: 'addCommentRequest'
+        });
+        const { data } = await axios.post(
+            `/api/v1/post/comment/${id}`,
+            {
+                comment,
+            },
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+        dispatch({
+            type: 'addCommentSuccess',
+            payload: data.message
+        });
+    }
+    catch (error) {
+        dispatch({
+            type: 'addCommentFailure',
+            payload: error.response.data
+        });
+    };
+};
+export const deleteCommentOnPost = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: 'deleteCommentRequest'
+        });
+        const { data } = await axios.post(
+            `/api/v1/post/delete/${id}`
+        );
+        dispatch({
+            type: 'deleteCommentSuccess',
+            payload: data.message
+        });
+    }
+    catch (error) {
+        dispatch({
+            type: 'deleteCommentFailure',
+            payload: error.response.data
         });
     };
 };
