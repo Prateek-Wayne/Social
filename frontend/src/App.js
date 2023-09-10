@@ -8,6 +8,8 @@ import { loadUser } from './Actions/User';
 import Home from './Components/Home/Home';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Toaster } from 'react-hot-toast';
+import Account from './Components/Account/Account';
+import NewPost from './Components/NewPost/NewPost';
 //custome theme for app
 const darkTheme = createTheme({
   palette: {
@@ -42,6 +44,8 @@ function App() {
         {isAuthenticated && <Header />}
         <Routes>
           <Route path="/" element={isAuthenticated ? <Home /> : <Login />} />
+          <Route path="/account" element={isAuthenticated ? <Account /> : <Login />} />
+          <Route path="/newPost" element={isAuthenticated ? <NewPost /> : <Login />} />
         </Routes>
       </BrowserRouter>
 

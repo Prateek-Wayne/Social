@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { loginUser } from '../../Actions/User';
 import { useFormik } from 'formik';
 import { loginSchema } from '../Validation';
-
+import {toast} from 'react-hot-toast';
 
 const initialValues = {
   email: "",
@@ -18,7 +18,8 @@ const Login = () => {
       initialValues: initialValues,
       validationSchema: loginSchema,
       onSubmit: (values) => {
-        dispatch(loginUser(values.email, values.password));
+         dispatch(loginUser(values.email, values.password));
+        // toast.success("Logged In Successfully");
       },
     });
   return (

@@ -27,7 +27,7 @@ const Home = () => {
         toast.success(post);
         dispatch({type:'clearMessage'})
     }
-},[likeError,post]);
+},[likeError,post,dispatch]);
 
   return loading || loadingUser ? (<Loader />) :
     (<div className='home'>

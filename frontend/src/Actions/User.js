@@ -89,3 +89,46 @@ export const getAllUsers=()=>async(dispatch)=>{
         });
     };
 };
+
+export const getMyPosts=()=>async(dispatch)=>{
+    try{
+        dispatch({
+            type:'myPostsRequest'
+        });
+        const {data}=await axios.get("api/v1/myProfile");
+        dispatch({
+            type:'myPostsSuccess',
+            payload:data.user.posts
+        });
+    }
+    catch(error){
+        dispatch({
+            type:'myPostsFailure',
+            payload:error.response.data.message
+        });
+    };
+};
+
+
+export const logoutUser = () => async (dispatch) => {
+    try {
+        //first dispatch Login request to reducer(loading: true)
+        dispatch({
+             type: 'LogoutRequest' 
+        }
+        );
+        const {data}=await axios.post('/api/v1/logout');
+        //second dispatch Login success to reducer(loading: false, user: data)
+        dispatch({
+            type: 'LogoutSuccess'
+        });
+
+
+    } catch (error) {
+        //third dispatch Login failure to reducer(loading: false, error: error)
+        dispatch({
+            type: 'LogoutFailure',
+            payload: error.response.data.message,
+        });
+    }
+};

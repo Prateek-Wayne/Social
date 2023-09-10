@@ -1,44 +1,73 @@
-import {createReducer} from '@reduxjs/toolkit'
+import { createReducer } from '@reduxjs/toolkit'
 
-const initialState={}
- export const likeReducer=createReducer(initialState,{
-    likeRequest:(state)=>{
-        state.loading=true;
+const initialState = {}
+export const likeReducer = createReducer(initialState, {
+    likeRequest: (state) => {
+        state.loading = true;
     },
-    likeSuccess:(state,action)=>{
-        state.loading=false;
-        state.post=action.payload;
+    likeSuccess: (state, action) => {
+        state.loading = false;
+        state.post = action.payload;
     },
-    likeFailure:(state,action)=>{
-        state.loading=false;
-        state.error=action.payload;
+    likeFailure: (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
     },
-    addCommentRequest:(state)=>{
-        state.loading=true;
+    addCommentRequest: (state) => {
+        state.loading = true;
     },
-    addCommentSuccess:(state,action)=>{
-        state.loading=false;
-        state.post=action.payload;
+    addCommentSuccess: (state, action) => {
+        state.loading = false;
+        state.post = action.payload;
     },
-    addCommentFailure:(state,action)=>{
-        state.loading=false;
-        state.error=action.payload;
+    addCommentFailure: (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
     },
-    deleteCommentRequest:(state)=>{
-        state.loading=true;
+    newPostRequest: (state) => {
+        state.loading = true;
     },
-    deleteCommentSuccess:(state,action)=>{
-        state.loading=false;
-        state.post=action.payload;
+    newPostSuccess: (state, action) => {
+        state.loading = false;
+        state.post = action.payload;
     },
-    deleteCommentFailure:(state,action)=>{
-        state.loading=false;
-        state.error=action.payload;
+    newPostFailure: (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
     },
-    clearError:(state)=>{
-        state.error=null;
+    deleteCommentRequest: (state) => {
+        state.loading = true;
     },
-    clearMessage:(state)=>{
-        state.message=null;
+    deleteCommentSuccess: (state, action) => {
+        state.loading = false;
+        state.post = action.payload;
+    },
+    deleteCommentFailure: (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+    },
+
+    clearError: (state) => {
+        state.error = null;
+    },
+    clearMessage: (state) => {
+        state.message = null;
     }
- })
+});
+
+export const myPostsReducer = createReducer(initialState, {
+    myPostsRequest: (state) => {
+        state.loading = true;
+    },
+    myPostsSuccess: (state, action) => {
+        state.loading = false;
+        state.posts = action.payload;
+    },
+    myPostsFailure: (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+    },
+    clearError: (state) => {
+        state.error = null;
+    },
+});

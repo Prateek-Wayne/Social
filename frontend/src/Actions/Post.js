@@ -67,3 +67,23 @@ export const deleteCommentOnPost = (id) => async (dispatch) => {
         });
     };
 };
+export const createNewPost = (caption,image) => async (dispatch) => {
+    try {
+        dispatch({
+            type: 'newPostRequest'
+        });
+        const { data } = await axios.post(
+            `/api/v1/post/delete/${id}`
+        );
+        dispatch({
+            type: 'newPostSuccess',
+            payload: data.message
+        });
+    }
+    catch (error) {
+        dispatch({
+            type: 'newPostFailure',
+            payload: error.response.data
+        });
+    };
+};
