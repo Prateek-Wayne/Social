@@ -239,3 +239,61 @@ export const deleteProfile = () => async (dispatch) => {
     }
   };
   
+export const forgotPassword = (email) => async (dispatch) => {
+    try {
+      dispatch({
+        type: "forgotPasswordRequest",
+      });
+  
+      const { data } = await axios.post(
+        "/api/v1/forgot/password",{
+          email
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+  
+      dispatch({
+        type: "forgotPasswordSuccess",
+        payload: data.message,
+      });
+    } catch (error) {
+      dispatch({
+        type: "forgotPasswordFailure",
+        payload: error.response.data.message,
+      });
+    }
+  };
+  
+export const resetPassword = (token,password) => async (dispatch) => {
+    try {
+      dispatch({
+        type: "resetPasswordRequest",
+      });
+  
+      const { data } = await axios.put(
+        `/api/v1/password/reset/${token}`,{
+          password
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+  
+      dispatch({
+        type: "resetPasswordSuccess",
+        payload: data.message,
+      });
+    } catch (error) {
+      dispatch({
+        type: "resetPasswordFailure",
+        payload: error.response.data.message,
+      });
+    }
+  };
+  

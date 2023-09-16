@@ -13,6 +13,8 @@ import NewPost from './Components/NewPost/NewPost';
 import Register from './Components/Register/Register';
 import UpdateProfile from './Components/UpdateProfile/UpdateProfile';
 import UpdatePassword from './Components/UpdatePassword/UpdatePassword';
+import ForgotPassword from './Components/ForgotPassword/ForgotPassword';
+import ResetPassword from './Components/ResetPassword/ResetPassword';
 //custome theme for app
 const darkTheme = createTheme({
   palette: {
@@ -60,6 +62,14 @@ function App() {
         <Route
           path="/updatePassword"
           element={isAuthenticated ? <UpdatePassword /> : <Login />}
+        />
+        <Route
+          path="/forgot/password"
+          element={isAuthenticated ? <ForgotPassword /> : <Login />}
+        />
+        <Route
+          path="/password/reset/:token"
+          element={isAuthenticated ? <ForgotPassword /> : <ResetPassword/>}
         />
 
 
