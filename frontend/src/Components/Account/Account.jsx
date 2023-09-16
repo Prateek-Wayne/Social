@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { getMyPosts, logoutUser } from '../../Actions/User';
+import { deleteProfile, getMyPosts, logoutUser } from '../../Actions/User';
 import Loader from '../Loader/Loader';
 import { toast } from 'react-hot-toast';
 import './Account.css'
@@ -20,6 +20,9 @@ const Account = () => {
     const logoutHandler=async ()=>{
         await dispatch(logoutUser());
         toast.success("Logged Out Successfully");
+    }
+    const deleteProfileHandler=async ()=>{
+        dispatch(deleteProfile());
     }
     // console.log("Inside Account ",user);
     useEffect(() => {
@@ -85,9 +88,9 @@ const Account = () => {
             <Typography>{user.posts.length}</Typography>
         </div>
         <Button variant='contained' onClick={logoutHandler} >Logout</Button>
-        <Link to='/updatePassword' >Edit Profile</Link>
-        <Link to='/updateUserProfile' >Change Password</Link>
-        <Button>
+        <Link to='/update/profile' >Edit Profile</Link>
+        <Link to='/updatePassword' >Change Password</Link>
+        <Button onClick={deleteProfileHandler}>
             Delete My Profile
         </Button>
 

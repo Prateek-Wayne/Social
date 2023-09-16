@@ -161,3 +161,81 @@ export const logoutUser = () => async (dispatch) => {
         });
     }
 };
+
+
+export const updateProfile = (name, email, avatar) => async (dispatch) => {
+    try {
+      dispatch({
+        type: "updateProfileRequest",
+      });
+  
+      const { data } = await axios.put(
+        "/api/v1/update/profile",
+        { name, email, avatar },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+  
+      dispatch({
+        type: "updateProfileSuccess",
+        payload: data.message,
+      });
+    } catch (error) {
+      dispatch({
+        type: "updateProfileFailure",
+        payload: error.response.data.message,
+      });
+    }
+  };
+export const updatePassword = (oldPassword,newPassword) => async (dispatch) => {
+    try {
+      dispatch({
+        type: "updatePasswordRequest",
+      });
+  
+      const { data } = await axios.post(
+        "/api/v1/updatePassword",
+        { oldPassword,newPassword },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+  
+      dispatch({
+        type: "updatePasswordSuccess",
+        payload: data.message,
+      });
+    } catch (error) {
+      dispatch({
+        type: "updatePasswordFailure",
+        payload: error.response.data.message,
+      });
+    }
+  };
+export const deleteProfile = () => async (dispatch) => {
+    try {
+      dispatch({
+        type: "deleteProfileRequest",
+      });
+  
+      const { data } = await axios.delete(
+        "/api/v1/deleteUser"
+      );
+  
+      dispatch({
+        type: "deleteProfileSuccess",
+        payload: data.message,
+      });
+    } catch (error) {
+      dispatch({
+        type: "deleteProfileFailure",
+        payload: error.response.data.message,
+      });
+    }
+  };
+  
