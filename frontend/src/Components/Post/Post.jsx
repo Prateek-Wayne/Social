@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { Avatar, Typography, Button, Dialog } from '@mui/material';
 import { MoreVert, Favorite, FavoriteBorder, ChatBubbleOutline, DeleteOutline } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
-import { likePost } from '../../Actions/Post';
-import { getFollowingPost } from '../../Actions/User';
+import { deletePost, likePost, updatePost } from '../../Actions/Post';
+import { getFollowingPost, getMyPosts } from '../../Actions/User';
 import User from '../User/User';
 import { addCommentOnPost } from '../../Actions/Post';
 import CommentCard from '../CommentCard/CommentCard';
@@ -13,8 +13,8 @@ const Post = ({
     postId,
     caption,
     postImage,
-    likes=[],
-    comments=[],
+    likes = [],
+    comments = [],
     ownerImage,
     ownerName,
     ownerId,
@@ -25,12 +25,14 @@ const Post = ({
     const [likesUser, setLikesUser] = React.useState(false);
     const [commentToggle, setCommentToggle] = React.useState(false);
     const [commentValue, setCommentValue] = React.useState('');
+    const [captionToggle, setCaptionToggle] = React.useState(false);
+    const [captionValue, setCaptionValue] = React.useState(commentValue);
     const { user } = useSelector(state => state.user);
     const handleLike = async () => {
         setLiked(!liked);
         await dispatch(likePost(postId));
         if (isAccount) {
-
+            dispatch(getMyPosts());
         }
         else {
             dispatch(getFollowingPost());
@@ -47,6 +49,16 @@ const Post = ({
         }
         setCommentValue('');
     }
+    const updateCaptionHandler = (e) => {
+        e.preventDefault();
+        dispatch(updatePost(captionValue, postId));
+        dispatch(getMyPosts());
+    };
+    const deletePostHandler = () => {
+        console.log("Delete Post");
+        // dispatch(deletePost(postId));
+        // dispatch(getMyPosts());
+    };
     useEffect(() => {
         likes.forEach((item) => {
             if (item._id === user._id) {
@@ -58,7 +70,7 @@ const Post = ({
     return (
         <div className='post'>
             <div className='postHeader'>
-                {isAccount ? <Button><MoreVert /> </Button> : null}
+                {isAccount ? <Button onClick={()=>{setCaptionToggle(!captionToggle)}}><MoreVert /> </Button> : null}
                 <img src={postImage} alt="Post" />
             </div>
             <div className='postDetails'>
@@ -88,7 +100,7 @@ const Post = ({
                     <ChatBubbleOutline />
                 </Button>
                 {
-                    isDelete ? <Button>
+                    isDelete ? <Button onClick={deletePostHandler()}>
                         <DeleteOutline />
                     </Button> : null
                 }
@@ -112,7 +124,7 @@ const Post = ({
                     </div>
                 </Dialog> : null
             }
-            <Dialog  open={commentToggle}
+            <Dialog open={commentToggle}
                 onClose={() => setCommentToggle(!commentToggle)}>
                 <div className='DialogBox'>
                     <Typography variant='h6'>Comments</Typography>
@@ -120,13 +132,24 @@ const Post = ({
                         <input type='text' placeholder='Comment Here' value={commentValue} required onChange={(e) => { setCommentValue(e.target.value) }} />
                         <Button type='submit'>Add</Button>
                     </form>
-                        {
-                            comments && comments.length > 0 ? comments.map((item) => {
-                                return(
-                                    <CommentCard key={item._id} userId={item.user._id} name={item.user.name}  comment={item.comment} commentId={item._id} postId={postId} isAccount={isAccount}/>
-                                );
-                        }):<Typography variant='h6'>No Comments</Typography>
+                    {
+                        comments && comments.length > 0 ? comments.map((item) => {
+                            return (
+                                <CommentCard key={item._id} userId={item.user._id} name={item.user.name} comment={item.comment} commentId={item._id} postId={postId} isAccount={isAccount} />
+                            );
+                        }) : <Typography variant='h6'>No Comments</Typography>
                     }
+                </div>
+            </Dialog>
+            <Dialog open={captionToggle}
+                onClose={() => setCaptionToggle(!captionToggle)}>
+                <div className='DialogBox'>
+                    <Typography variant='h6'>Update Comments</Typography>
+                    <form className='commentForm' onSubmit={updateCaptionHandler}>
+                        <input type='text'  value={captionValue} required onChange={(e) => { setCaptionValue(e.target.value) }} />
+                        <Button type='submit'>Update</Button>
+                    </form>
+
                 </div>
             </Dialog>
 

@@ -1,32 +1,38 @@
 const User = require("../model/USERMODEL");
 const Post = require("../model/POSTMODEL");
 
+const cloudinary = require("cloudinary");
+
+  
 exports.createPost = async (req, res) => {
   try {
-    const { caption } = req.body;
-    //**NOTE: req.user._id is coming from the Authenticator middleware./....
+    const myCloud = await cloudinary.v2.uploader.upload(req.body.image, {
+      folder: "posts",
+    });
     const newPostData = {
-      caption: caption,
+      caption: req.body.caption,
       image: {
-        public_id: "this is a public id",
-        url: "temp/temp/img.jpeg",
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
       },
       owner: req.user._id,
     };
-    const newPost = await Post.create(newPostData);
-    // console.log(req.user._id);
+
+    const post = await Post.create(newPostData);
+
     const user = await User.findById(req.user._id);
-    user.posts.push(newPost._id);
+
+    user.posts.unshift(post._id);
+
     await user.save();
     res.status(201).json({
       success: true,
-      post: newPost,
+      message: "Post created",
     });
   } catch (error) {
     res.status(500).json({
       success: false,
       message: error.message,
-      location: "inside post /createPost catch block",
     });
   }
 };
