@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import './NewPost.css'
 import {toast} from 'react-hot-toast'
 import { createNewPost } from '../../Actions/Post'
+import { loadUser } from '../../Actions/User'
 
 const NewPost = () => {
     const[caption,setCaption]=React.useState('');
@@ -26,6 +27,7 @@ const NewPost = () => {
     const submitHandler=(e)=>{
         e.preventDefault()
         dispatch(createNewPost(caption,image));
+        dispatch(loadUser());
     }
 
     useEffect(()=>{

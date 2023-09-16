@@ -122,4 +122,23 @@ export const updatePost = (caption,id) => async (dispatch) => {
         });
     };
 };
-
+export const deletePost = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: 'deleteRequest'
+        });
+        const { data } = await axios.delete(
+            `/api/v1/post/${id} `
+        );
+        dispatch({
+            type: 'deleteSuccess',
+            payload: data.message
+        });
+    }
+    catch (error) {
+        dispatch({
+            type: 'deleteFailure',
+            payload: error.response.data
+        });
+    };
+};

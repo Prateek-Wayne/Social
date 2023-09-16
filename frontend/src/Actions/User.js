@@ -29,6 +29,35 @@ export const loginUser = (email, password) => async (dispatch) => {
         });
     }
 };
+
+export const registerUser = (name,email, password,avatar) => async (dispatch) => {
+    try {
+        //first dispatch Login request to reducer(loading: true)
+        dispatch({
+             type: 'RegisterRequest' 
+        }
+        );
+        const {data}=await axios.post('/api/v1/login',{name,email,password,avatar},
+        {
+            headers:{
+                'Content-Type':'application/json'
+            }
+        });
+        //second dispatch Login success to reducer(loading: false, user: data)
+        dispatch({
+            type: 'RegisterSuccess',
+            payload: data.user,
+        });
+
+
+    } catch (error) {
+        //third dispatch Login failure to reducer(loading: false, error: error)
+        dispatch({
+            type: 'RegisterFailure',
+            payload: error.response.data.message,
+        });
+    }
+};
 export const loadUser = () => async (dispatch) => {
     try {
         //first dispatch Login request to reducer(loading: true)

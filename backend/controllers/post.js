@@ -81,6 +81,7 @@ exports.deletePost = async (req, res) => {
         message: "Post is not available",
       });
     } else {
+      await cloudinary.v2.uploader.destroy(post.image.public_id);
       await Post.deleteOne({ _id: req.params.id });
       const user = await User.findById(req.user._id);
       const index = user.posts.indexOf(req.params.id);

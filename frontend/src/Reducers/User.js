@@ -31,15 +31,15 @@ export const userReducer = createReducer(initialState,
             state.isAuthenticated = true;
         },
 
-        RergisterRequest: (state) => {
+        RegisterRequest: (state) => {
             state.loading = true;
         },
-        RergisterSuccess: (state, action) => {
+        RegisterSuccess: (state, action) => {
             state.loading = false;
             state.user = action.payload;
             state.isAuthenticated = true;
         },
-        RergisterFailure: (state, action) => {
+        RegisterFailure: (state, action) => {
             state.loading = false;
             state.error = action.payload;
             state.isAuthenticated = false;

@@ -5,7 +5,7 @@ import { Avatar, Typography, Button, Dialog } from '@mui/material';
 import { MoreVert, Favorite, FavoriteBorder, ChatBubbleOutline, DeleteOutline } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { deletePost, likePost, updatePost } from '../../Actions/Post';
-import { getFollowingPost, getMyPosts } from '../../Actions/User';
+import { getFollowingPost, getMyPosts, loadUser } from '../../Actions/User';
 import User from '../User/User';
 import { addCommentOnPost } from '../../Actions/Post';
 import CommentCard from '../CommentCard/CommentCard';
@@ -56,8 +56,9 @@ const Post = ({
     };
     const deletePostHandler = () => {
         console.log("Delete Post");
-        // dispatch(deletePost(postId));
-        // dispatch(getMyPosts());
+        dispatch(deletePost(postId));
+        dispatch(getMyPosts());
+        dispatch(loadUser());
     };
     useEffect(() => {
         likes.forEach((item) => {
@@ -100,7 +101,7 @@ const Post = ({
                     <ChatBubbleOutline />
                 </Button>
                 {
-                    isDelete ? <Button onClick={deletePostHandler()}>
+                    isDelete ? <Button onClick={deletePostHandler}>
                         <DeleteOutline />
                     </Button> : null
                 }
