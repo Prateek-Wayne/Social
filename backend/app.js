@@ -3,6 +3,8 @@ const express=require('express');
 const cookieParser=require('cookie-parser');
 const app=express();
 const session = require('express-session')
+const path = require("path");
+
 
 //app midleware
 app.use(express.json({ limit: "50mb" }));
@@ -46,4 +48,10 @@ const userRouter=require('./routes/user');
 //using Routes
 app.use('/api/v1',postRouter);    //url will be  https//localhost:4000/api/v1/post/upload  ,here /api/v1 will be prefix
 app.use('/api/v1',userRouter);    //url will be https://localhost:4000/api/v1/register         ,here /api/v1 will be prefix
+
+app.use(express.static(path.join(__dirname, "../frontend/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"));
+});
 module.exports=app;
