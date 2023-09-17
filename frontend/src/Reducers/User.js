@@ -98,6 +98,23 @@ export const allUsersReducer = createReducer(initialState, {
     }   
 
 });
+export const searchUsersReducer = createReducer(initialState, {
+    searchUsersRequest: (state) => {
+        state.loading=true;
+    },
+    searchUsersSuccess: (state, action) => {
+        state.loading=false;
+        state.user=action.payload; // change this line
+    },
+    searchUsersFailure: (state, action) => {
+        state.loading=false;
+        state.error=action.payload;
+    },
+    clearError: (state) => {
+        state.error=null;
+    }   
+});
+
 export const userProfileReducer = createReducer(initialState, {
     userProfileRequest: (state) => {
         state.loading=true;

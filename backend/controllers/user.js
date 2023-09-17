@@ -464,6 +464,23 @@ exports.getAllUsers = async (req, res) => {
   try {
     const user = await User.find({
     });
+    return res.status(200).json({
+      success: true,
+      user,
+    })
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+      location: "Inside the getAlluser catch block"
+    })
+  }
+}
+exports.searchUser = async (req, res) => {
+  try {
+    const user = await User.find({
+      name: { $regex: req.query.name, $options: "i" },
+    });
 
     return res.status(200).json({
       success: true,

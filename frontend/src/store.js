@@ -1,5 +1,5 @@
 import {configureStore} from '@reduxjs/toolkit';
-import { PostOfFollowingReducer, allUsersReducer, userProfileReducer, userReducer } from './Reducers/User';
+import { PostOfFollowingReducer, allUsersReducer, searchUsersReducer, userProfileReducer, userReducer } from './Reducers/User';
 import { likeReducer, myPostsReducer, userPostReducer } from './Reducers/Post';
 
 const store=configureStore({
@@ -7,6 +7,7 @@ const store=configureStore({
         user:userReducer,
         postOfFollowing:PostOfFollowingReducer,
         allUsers:allUsersReducer,
+        searchUser:searchUsersReducer,
         like:likeReducer,
         myPost:myPostsReducer,
         userProfile:userProfileReducer,

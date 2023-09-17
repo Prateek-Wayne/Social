@@ -4,10 +4,11 @@ import User from '../User/User';
 import Post from '../Post/Post';
 import Loader from '../Loader/Loader';
 import { Avatar, Button, Dialog, Typography } from '@mui/material';
-import { toast } from 'react-hot-toast';
+import  toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux'
 import { followAndUnfollowUser, getUserPosts, getUserProfile } from '../../Actions/User';
 import { useParams } from "react-router-dom";
+
 
 const UserProfile = () => {
   const params = useParams();
@@ -15,7 +16,7 @@ const UserProfile = () => {
   const { user: me } = useSelector((state) => state.user);
   // console.log("Inside UserProfile.jsx", me);
   const { loading, posts, error } = useSelector(state => state.userPosts);
-  const { loading: loadingUser, allUsers } = useSelector(state => state.userProfile);
+  const { loading: loadingUser, allUsers,error:userError } = useSelector(state => state.userProfile);
   const {
     error: followError,
     message,
@@ -51,6 +52,26 @@ const UserProfile = () => {
     dispatch(getUserPosts(params.id));
     dispatch(getUserProfile(params.id));
   }, [dispatch]);
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch({ type: "clearErrors" });
+    }
+
+    if (followError) {
+      toast.error(followError);
+      dispatch({ type: "clearErrors" });
+    }
+
+    if (userError) {
+      toast.error(userError);
+      dispatch({ type: "clearErrors" });
+    }
+    if (message) {
+      toast.success(message);
+      dispatch({ type: "clearMessage" });
+    }
+  }, [toast, error, message, followError, userError, dispatch]);
 
   return loading || loadingUser ? (<Loader />) :
     (<div className='home'>

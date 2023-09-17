@@ -72,7 +72,8 @@ const Post = ({
         <div className='post'>
             <div className='postHeader'>
                 {isAccount ? <Button onClick={()=>{setCaptionToggle(!captionToggle)}}><MoreVert /> </Button> : null}
-                <img src={postImage} alt="Post" />
+                <img src={postImage} alt="Post" style={{ objectFit: 'cover', width: '100%', height: 'auto' }} />
+
             </div>
             <div className='postDetails'>
                 <Avatar src={ownerImage} alt="Home" sx={{

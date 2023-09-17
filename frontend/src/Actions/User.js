@@ -118,6 +118,24 @@ export const getAllUsers = () => async (dispatch) => {
     });
   };
 };
+export const searchUsers = (name) => async (dispatch) => {
+  try {
+    dispatch({
+      type: 'searchUsersRequest'
+    });
+    const { data } = await axios.get(`/api/v1/users?name=${name}`);
+    dispatch({
+      type: 'searchUsersSuccess',
+      payload: data.user
+    });
+  }
+  catch (error) {
+    dispatch({
+      type: 'searchUsersFailure',
+      payload: error.response.data.message
+    });
+  };
+};
 
 export const getMyPosts = () => async (dispatch) => {
   try {

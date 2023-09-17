@@ -11,7 +11,9 @@ import User from '../User/User';
 const Account = () => {
     const dispatch = useDispatch();
     const {user}=useSelector(state=>state.user);
+    console.log("Inside Account ",user)
     const {loading,error,posts} = useSelector(state => state.myPost);
+    console.log("Inside Account ",posts);
     const {error:likeError,post}=useSelector(state=>state.like);
 
     const [followerToggle, setFollowerToggle] = React.useState(false);
@@ -20,6 +22,7 @@ const Account = () => {
     const logoutHandler=async ()=>{
         await dispatch(logoutUser());
         toast.success("Logged Out Successfully");
+        dispatch({type:'clearMessage'});
     }
     const deleteProfileHandler=async ()=>{
         dispatch(deleteProfile());
@@ -50,10 +53,10 @@ const Account = () => {
                 <Post key={post._id}
                 postId={post._id}
                 caption={post.caption}
-                postImage={post.photo}
+                postImage={post.image.url}
                 likes={post.likes}
                 comments={post.Comments}
-                // ownerImage={post.owner.avatar.url}
+                ownerImage={user.avatar.url}
                 ownerName={post.owner.name}
                 ownerId={post.owner._id}
                 isAccount={true}
