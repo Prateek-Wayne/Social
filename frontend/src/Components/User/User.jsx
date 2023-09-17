@@ -6,7 +6,7 @@ import { Typography } from '@mui/material';
 
 const User = ({userId,name,avatar}) => {
   return (
-    <Link to={`/profile/${userId}`} className='homeUser'>
+    <Link to={`/user/${userId}`} className='homeUser'>
     <img src={avatar} alt={name}/>
     <Typography variant='h6'>{name}</Typography>
     </Link>

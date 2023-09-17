@@ -15,6 +15,7 @@ import UpdateProfile from './Components/UpdateProfile/UpdateProfile';
 import UpdatePassword from './Components/UpdatePassword/UpdatePassword';
 import ForgotPassword from './Components/ForgotPassword/ForgotPassword';
 import ResetPassword from './Components/ResetPassword/ResetPassword';
+import UserProfile from './Components/UserProfile/UserProfile';
 //custome theme for app
 const darkTheme = createTheme({
   palette: {
@@ -71,8 +72,10 @@ function App() {
           path="/password/reset/:token"
           element={isAuthenticated ? <ForgotPassword /> : <ResetPassword/>}
         />
-
-
+        <Route
+          path="/user/:id"
+          element={isAuthenticated ? <UserProfile/> : <Login />}
+        />
         </Routes>
       </BrowserRouter>
 

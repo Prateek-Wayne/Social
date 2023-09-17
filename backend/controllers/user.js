@@ -446,7 +446,7 @@ exports.myProfle = async (req, res) => {
 
 exports.getUserProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).populate("posts");
+    const user = await User.findById(req.params.id).populate("posts followers following");
     return res.status(200).json({
       success: true,
       user
@@ -477,3 +477,4 @@ exports.getAllUsers = async (req, res) => {
     })
   }
 }
+

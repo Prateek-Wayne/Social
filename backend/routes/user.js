@@ -13,6 +13,7 @@ router.route('/updatePassword').post(Authenticator,updatePassword);
 router.route('/updateUserProfile').post(Authenticator,updateUserProfile);
 router.route('/deleteUser').delete(Authenticator,DeleteUser);
 router.route('/myProfile').get(Authenticator,myProfle);
+// router.route("/userPost/:id").get(Authenticator,getUserPost);
 router.route("/user/:id").get(Authenticator,getUserProfile);
 router.route("/users").get(Authenticator,getAllUsers);
 router.route("/forgot/password").post(Authenticator,forgotPassword);

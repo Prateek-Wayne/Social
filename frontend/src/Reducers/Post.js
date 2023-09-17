@@ -123,7 +123,17 @@ export const likeReducer = createReducer(initialState, {
         state.loading = false;
         state.message = action.payload;
     },
-    
+    followUserRequest: (state) => {
+        state.loading = true;
+      },
+      followUserSuccess: (state, action) => {
+        state.loading = false;
+        state.message = action.payload;
+      },
+      followUserFailure: (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      },
     clearError: (state) => {
         state.error = null;
     },
@@ -141,6 +151,22 @@ export const myPostsReducer = createReducer(initialState, {
         state.posts = action.payload;
     },
     myPostsFailure: (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+    },
+    clearError: (state) => {
+        state.error = null;
+    },
+});
+export const userPostReducer = createReducer(initialState, {
+    userPostRequest: (state) => {
+        state.loading = true;
+    },
+    userPostSuccess: (state, action) => {
+        state.loading = false;
+        state.posts = action.payload;
+    },
+    userPostFailure: (state, action) => {
         state.loading = false;
         state.error = action.payload;
     },

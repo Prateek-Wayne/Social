@@ -98,3 +98,20 @@ export const allUsersReducer = createReducer(initialState, {
     }   
 
 });
+export const userProfileReducer = createReducer(initialState, {
+    userProfileRequest: (state) => {
+        state.loading=true;
+    },
+    userProfileSuccess: (state, action) => {
+        state.loading=false;
+        state.allUsers=action.payload;
+    },
+    userProfileFailure: (state, action) => {
+        state.loading=false;
+        state.error=action.payload;
+    },
+    clearError: (state) => {
+        state.error=null;
+    }   
+
+});
