@@ -82,10 +82,10 @@ const UserProfile = () => {
               <Post key={post._id}
                 postId={post._id}
                 caption={post.caption}
-                postImage={post.photo}
+                postImage={post.image.url}
                 likes={post.likes}
                 comments={post.Comments}
-                // ownerImage={post.owner.avatar.url}
+                ownerImage={allUsers.user.avatar.url}
                 ownerName={post.owner.name}
                 ownerId={post.owner._id}
 

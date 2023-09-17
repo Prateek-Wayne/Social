@@ -38,7 +38,7 @@ const Home = () => {
               <Post key={post._id}
                 postId={post._id}
                 caption={post.caption}
-                postImage={post.photo}
+                postImage={post.image.url}
                 likes={post.likes}
                 comments={post.Comments}
                 ownerImage={post.owner.avatar.url}
@@ -59,7 +59,7 @@ const Home = () => {
                 key={user._id}
                 userId={user._id}
                 name={user.name}
-                avatar={"https://mui.com/static/images/cards/paella.jpg"} />
+                avatar={user.avatar.url} />
             )
           }) : <Typography variant='h6'>No Users 😔 </Typography>
         }
