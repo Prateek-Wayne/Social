@@ -37,11 +37,15 @@ const Account = () => {
             toast.error(likeError);
             dispatch({type:'clearError'})
         }
+        if(error){
+            toast.error(error);
+            dispatch({type:'clearError'})
+        }
         if(post){
             toast.success(post);
             dispatch({type:'clearMessage'})
         }
-    },[likeError,post,dispatch]);
+    },[error,likeError,post,dispatch]);
 
   return loading?<Loader/>:
   (

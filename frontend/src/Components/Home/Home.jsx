@@ -23,11 +23,15 @@ const Home = () => {
         toast.error(likeError);
         dispatch({type:'clearError'})
     }
+    if(error){
+        toast.error(error);
+        dispatch({type:'clearError'})
+    }
     if(post){
         toast.success(post);
         dispatch({type:'clearMessage'})
     }
-},[likeError,post,dispatch]);
+},[likeError,post,dispatch,error]);
 
   return loading || loadingUser ? (<Loader />) :
     (<div className='home'>
